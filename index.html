@@ -102,7 +102,7 @@
             </div>
         </div>
 
-        <!-- Language Flags & Admin -->
+        <!-- Language Flags & Admin Button -->
         <div class="flex items-center space-x-2">
             <!-- Language Switcher -->
             <div class="flex items-center space-x-1 bg-darkBg px-2 py-1 rounded-lg gold-border text-xs">
@@ -110,50 +110,8 @@
                 <button onclick="setLanguage('ru')" title="Русский" class="hover:scale-125 transition">🇷🇺</button>
                 <button onclick="setLanguage('en')" title="English" class="hover:scale-125 transition">🇺🇸</button>
             </div>
-            <!-- ADMIN MODAL (Ուղղված) -->
-<div id="adminModal" class="fixed inset-0 bg-darkBg/90 backdrop-blur-md hidden items-center justify-center p-4 z-[9999]">
-    <div class="glass-card rounded-2xl p-5 max-w-sm w-full gold-border space-y-4 max-h-[85vh] overflow-y-auto relative">
-        <div class="flex justify-between items-center border-b border-gold/20 pb-2">
-            <h3 class="font-bold text-base text-gold-bright flex items-center">
-                <i class="fa-solid fa-shield-cat mr-2 text-gold"></i>Admin Panel
-            </h3>
-            <button onclick="closeModal('adminModal')" class="text-gray-400 hover:text-white p-1">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-        </div>
-
-        <!-- Գաղտնաբառի ստուգման բաժին -->
-        <div id="adminAuthSection" class="space-y-3">
-            <p class="text-xs text-gray-300">Մուտքագրեք ադմին գաղտնաբառը (Լռելյայն: <strong>1234</strong>)</p>
-            <input type="password" id="adminPassInput" placeholder="PIN Կոդ" class="w-full bg-darkBg gold-border rounded-lg p-2 text-center text-gold font-bold text-lg tracking-widest focus:outline-none">
-            <button onclick="checkAdminPassword()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
-                Մուտք Ադմին Պանել
-            </button>
-        </div>
-
-        <!-- Ադմին գործիքների բաժին (Լռելյայն փակ է) -->
-        <div id="adminControlsSection" class="hidden space-y-3 text-xs">
-            <div class="bg-darkBg p-3 rounded-xl gold-border space-y-1">
-                <p class="text-gray-400">Ընդհանուր օգտատերեր: <strong class="text-gold-bright">12,450</strong></p>
-                <p class="text-gray-400">Ընդհանուր Tap-եր: <strong class="text-gold-bright">1,849,200</strong></p>
-            </div>
-            <div class="space-y-1 text-left">
-                <label class="text-gray-300 font-semibold">Tap Power Multiplier</label>
-                <input type="number" id="adminTapReward" value="1" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
-            </div>
-            <div class="space-y-1 text-left">
-                <label class="text-gray-300 font-semibold">Max Energy Limit</label>
-                <input type="number" id="adminMaxEnergy" value="1000" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
-            </div>
-            <button onclick="saveAdminSettings()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
-                Պահպանել Կարգավորումները
-            </button>
-            <button onclick="resetUserData()" class="w-full py-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold">
-                Ջնջել Իմ Տվյալները (Reset)
-            </button>
-        </div>
-    </div>
-</div>
+            <!-- Admin Button -->
+            <button onclick="openModal('adminModal')" class="w-8 h-8 rounded-lg bg-darkBg gold-border text-gold text-xs font-bold flex items-center justify-center hover:bg-gold/10 transition">
                 <i class="fa-solid fa-gear"></i>
             </button>
         </div>
@@ -443,23 +401,46 @@
     </div>
 
     <!-- ADMIN MODAL -->
-    <div id="adminModal" class="fixed inset-0 bg-darkBg/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-        <div class="glass-card rounded-2xl p-5 max-w-sm w-full gold-border space-y-4 max-h-[85vh] overflow-y-auto">
-            <div class="flex justify-between items-center">
-                <h3 class="font-bold text-base text-gold-bright"><i class="fa-solid fa-shield-cat mr-2 text-gold"></i>Admin Panel</h3>
-                <button onclick="closeModal('adminModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <div id="adminModal" class="fixed inset-0 bg-darkBg/90 backdrop-blur-md hidden items-center justify-center p-4 z-[9999]">
+        <div class="glass-card rounded-2xl p-5 max-w-sm w-full gold-border space-y-4 max-h-[85vh] overflow-y-auto relative">
+            <div class="flex justify-between items-center border-b border-gold/20 pb-2">
+                <h3 class="font-bold text-base text-gold-bright flex items-center">
+                    <i class="fa-solid fa-shield-cat mr-2 text-gold"></i>Admin Panel
+                </h3>
+                <button onclick="closeModal('adminModal')" class="text-gray-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
             </div>
-            <div class="space-y-3 text-xs">
+
+            <!-- PIN Code Authentication -->
+            <div id="adminAuthSection" class="space-y-3">
+                <p class="text-xs text-gray-300">Մուտքագրեք ադմին գաղտնաբառը (Լռելյայն: <strong>1234</strong>)</p>
+                <input type="password" id="adminPassInput" placeholder="PIN Կոդ" class="w-full bg-darkBg gold-border rounded-lg p-2 text-center text-gold font-bold text-lg tracking-widest focus:outline-none">
+                <button onclick="checkAdminPassword()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
+                    Մուտք Ադմին Պանել
+                </button>
+            </div>
+
+            <!-- Admin Controls -->
+            <div id="adminControlsSection" class="hidden space-y-3 text-xs">
                 <div class="bg-darkBg p-3 rounded-xl gold-border space-y-1">
-                    <p class="text-gray-400">Total System Users: <strong class="text-gold-bright">12,450</strong></p>
-                    <p class="text-gray-400">Total Taps Recorded: <strong class="text-gold-bright">1,849,200</strong></p>
+                    <p class="text-gray-400">Ընդհանուր օգտատերեր: <strong class="text-gold-bright">12,450</strong></p>
+                    <p class="text-gray-400">Ընդհանուր Tap-եր: <strong class="text-gold-bright">1,849,200</strong></p>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1 text-left">
                     <label class="text-gray-300 font-semibold">Tap Power Multiplier</label>
                     <input type="number" id="adminTapReward" value="1" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
                 </div>
-                <button onclick="saveAdminSettings()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">Save Configurations</button>
-                <button onclick="resetUserData()" class="w-full py-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold">Reset Game Data</button>
+                <div class="space-y-1 text-left">
+                    <label class="text-gray-300 font-semibold">Max Energy Limit</label>
+                    <input type="number" id="adminMaxEnergy" value="1000" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
+                </div>
+                <button onclick="saveAdminSettings()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
+                    Պահպանել Կարգավորումները
+                </button>
+                <button onclick="resetUserData()" class="w-full py-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold">
+                    Ջնջել Իմ Տվյալները (Reset)
+                </button>
             </div>
         </div>
     </div>
@@ -793,6 +774,50 @@
             if (tabName === 'leaderboard') renderLeaderboard();
         }
 
+        // Admin Panel Controls & Modal
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function checkAdminPassword() {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === '1234') {
+                document.getElementById('adminAuthSection').classList.add('hidden');
+                document.getElementById('adminControlsSection').classList.remove('hidden');
+                document.getElementById('adminTapReward').value = gameState.tapPower;
+                document.getElementById('adminMaxEnergy').value = gameState.maxEnergy;
+            } else {
+                alert('Սխալ PIN կոդ!');
+            }
+        }
+
+        function saveAdminSettings() {
+            let mult = parseInt(document.getElementById('adminTapReward').value) || 1;
+            let maxE = parseInt(document.getElementById('adminMaxEnergy').value) || 1000;
+            
+            gameState.tapPower = mult;
+            gameState.maxEnergy = maxE;
+            
+            localStorage.setItem('arm_tap_power', gameState.tapPower);
+            localStorage.setItem('arm_max_energy', gameState.maxEnergy);
+            
+            closeModal('adminModal');
+            updateUI();
+            alert("Կարգավորումները պահպանված են:");
+        }
+
         // Combo Cards Logic
         function selectComboCard(id) {
             let el = document.getElementById(`comboCard${id}`);
@@ -858,142 +883,4 @@
                 list.innerHTML += `
                     <div class="glass-card rounded-xl p-3 gold-border flex items-center justify-between">
                         <div>
-                            <h4 class="font-bold text-xs text-gold-bright">${task.title}</h4>
-                            <p class="text-[10px] text-gold"><i class="fa-solid fa-coins mr-1"></i>+${task.reward.toLocaleString()} ARM</p>
-                        </div>
-                        <button onclick="completeTask(${task.id})" class="px-3 py-1.5 rounded-lg text-xs font-bold ${task.completed ? 'bg-darkBg text-gray-500 gold-border' : 'gold-gradient-bg text-darkBg'}">
-                            ${task.completed ? 'Completed' : 'Claim'}
-                        </button>
-                    </div>
-                `;
-            });
-        }
-
-        function completeTask(id) {
-            let task = gameState.tasks.find(t => t.id === id);
-            if (task && !task.completed) {
-                task.completed = true;
-                gameState.balance += task.reward;
-                localStorage.setItem(`task_${id}`, 'true');
-                renderTasks();
-                updateUI();
-                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            }
-        }
-
-        // Leaderboard
-        function renderLeaderboard() {
-            const list = document.getElementById('leaderboardList');
-            const leaders = [
-                { rank: 1, name: 'Sarkis_TON', balance: '45,200,000', level: 'Level 6' },
-                { rank: 2, name: 'CryptoArmenia', balance: '38,900,000', level: 'Level 6' },
-                { rank: 3, name: 'VardanTaps', balance: '29,400,000', level: 'Level 5' },
-                { rank: 4, name: 'AramMaster', balance: '18,100,000', level: 'Level 5' },
-                { rank: 5, name: 'Ani_Gold', balance: '12,500,000', level: 'Level 5' },
-            ];
-            list.innerHTML = '';
-            leaders.forEach(l => {
-                list.innerHTML += `
-                    <div class="glass-card rounded-xl p-3 gold-border flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-7 text-center font-extrabold ${l.rank <= 3 ? 'text-gold text-base' : 'text-gray-400 text-xs'}">#${l.rank}</span>
-                            <div>
-                                <h4 class="font-bold text-xs text-gold-bright">${l.name}</h4>
-                                <span class="text-[10px] text-gray-400">${l.level}</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-extrabold text-gold text-xs">${l.balance} ARM</span>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function connectTonWallet() {
-            gameState.walletConnected = true;
-            gameState.walletAddress = 'UQ' + Math.random().toString(36).substring(2, 10) + '...ARM';
-            localStorage.setItem('arm_wallet', gameState.walletAddress);
-            updateUI();
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        }
-
-        function disconnectTonWallet() {
-            gameState.walletConnected = false;
-            gameState.walletAddress = '';
-            localStorage.removeItem('arm_wallet');
-            updateUI();
-        }
-
-        function claimDailyModal() {
-            const grid = document.getElementById('dailyRewardsGrid');
-            const rewards = [100, 250, 500, 1000, 2500, 5000, 10000];
-            grid.innerHTML = '';
-            rewards.forEach((rew, idx) => {
-                let day = idx + 1;
-                let active = day === gameState.dailyStreak;
-                grid.innerHTML += `
-                    <div class="glass-card p-2 rounded-xl text-center gold-border ${active ? 'bg-gold/20' : ''}">
-                        <span class="text-[10px] text-gray-400 block">Day ${day}</span>
-                        <span class="text-xs font-bold text-gold-bright">+${rew}</span>
-                    </div>
-                `;
-            });
-            document.getElementById('dailyModal').classList.remove('hidden');
-            document.getElementById('dailyModal').classList.add('flex');
-        }
-
-        function claimDailyReward() {
-            const rewards = [100, 250, 500, 1000, 2500, 5000, 10000];
-            let reward = rewards[(gameState.dailyStreak - 1) % 7];
-            gameState.balance += reward;
-            gameState.dailyStreak = (gameState.dailyStreak % 7) + 1;
-            localStorage.setItem('arm_streak', gameState.dailyStreak);
-            updateUI();
-            closeModal('dailyModal');
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        }
-
-        function openClaimModal() {
-            document.getElementById('claimModal').classList.remove('hidden');
-            document.getElementById('claimModal').classList.add('flex');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-            document.getElementById(modalId).classList.remove('flex');
-        }
-
-        function copyRefLink() {
-            navigator.clipboard.writeText("https://t.me/ARM_Tap_Bot?start=REF_" + Math.floor(Math.random()*90000+10000));
-            alert("Referral link copied!");
-        }
-
-        function shareOnTelegram() {
-            if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot&text=Join%20ARM%20Tap!");
-            } else {
-                window.open("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot", "_blank");
-            }
-        }
-
-        function saveAdminSettings() {
-            let mult = parseInt(document.getElementById('adminTapReward').value) || 1;
-            gameState.tapPower = mult;
-            closeModal('adminModal');
-            updateUI();
-        }
-
-        function resetUserData() {
-            if (confirm("Reset game progress?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        // Initialize App & Language
-        setLanguage(currentLang);
-        updateUI();
-    </script>
-</body>
-</html>
+                            <h4 class="font
