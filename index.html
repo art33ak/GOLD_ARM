@@ -400,7 +400,7 @@
         </div>
     </div>
 
-    <!-- ADMIN MODAL -->
+    <!-- ADMIN MODAL (Correctly placed at the bottom level) -->
     <div id="adminModal" class="fixed inset-0 bg-darkBg/90 backdrop-blur-md hidden items-center justify-center p-4 z-[9999]">
         <div class="glass-card rounded-2xl p-5 max-w-sm w-full gold-border space-y-4 max-h-[85vh] overflow-y-auto relative">
             <div class="flex justify-between items-center border-b border-gold/20 pb-2">
@@ -774,12 +774,18 @@
             if (tabName === 'leaderboard') renderLeaderboard();
         }
 
-        // Admin Panel Controls & Modal
+        // Admin Panel Controls & Modal Functions
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                
+                if (modalId === 'adminModal') {
+                    document.getElementById('adminAuthSection').classList.remove('hidden');
+                    document.getElementById('adminControlsSection').classList.add('hidden');
+                    document.getElementById('adminPassInput').value = '';
+                }
             }
         }
 
@@ -809,13 +815,15 @@
             
             gameState.tapPower = mult;
             gameState.maxEnergy = maxE;
+            gameState.energy = maxE;
             
             localStorage.setItem('arm_tap_power', gameState.tapPower);
             localStorage.setItem('arm_max_energy', gameState.maxEnergy);
+            localStorage.setItem('arm_energy', gameState.energy);
             
             closeModal('adminModal');
             updateUI();
-            alert("Կարգավորումները պահպանված են:");
+            alert("Կարգավորումները պահպանված են");
         }
 
         // Combo Cards Logic
@@ -883,4 +891,130 @@
                 list.innerHTML += `
                     <div class="glass-card rounded-xl p-3 gold-border flex items-center justify-between">
                         <div>
-                            <h4 class="font
+                            <h4 class="font-bold text-xs text-gold-bright">${task.title}</h4>
+                            <p class="text-[10px] text-gold"><i class="fa-solid fa-coins mr-1"></i>+${task.reward.toLocaleString()} ARM</p>
+                        </div>
+                        <button onclick="completeTask(${task.id})" class="px-3 py-1.5 rounded-lg text-xs font-bold ${task.completed ? 'bg-darkBg text-gray-500 gold-border' : 'gold-gradient-bg text-darkBg'}">
+                            ${task.completed ? 'Completed' : 'Claim'}
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function completeTask(id) {
+            let task = gameState.tasks.find(t => t.id === id);
+            if (task && !task.completed) {
+                task.completed = true;
+                gameState.balance += task.reward;
+                localStorage.setItem(`task_${id}`, 'true');
+                renderTasks();
+                updateUI();
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
+        // Leaderboard
+        function renderLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            const leaders = [
+                { rank: 1, name: 'Sarkis_TON', balance: '45,200,000', level: 'Level 6' },
+                { rank: 2, name: 'CryptoArmenia', balance: '38,900,000', level: 'Level 6' },
+                { rank: 3, name: 'VardanTaps', balance: '29,400,000', level: 'Level 5' },
+                { rank: 4, name: 'AramMaster', balance: '18,100,000', level: 'Level 5' },
+                { rank: 5, name: 'Ani_Gold', balance: '12,500,000', level: 'Level 5' },
+            ];
+            list.innerHTML = '';
+            leaders.forEach(l => {
+                list.innerHTML += `
+                    <div class="glass-card rounded-xl p-3 gold-border flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-7 text-center font-extrabold ${l.rank <= 3 ? 'text-gold text-base' : 'text-gray-400 text-xs'}">#${l.rank}</span>
+                            <div>
+                                <h4 class="font-bold text-xs text-gold-bright">${l.name}</h4>
+                                <span class="text-[10px] text-gray-400">${l.level}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-extrabold text-gold text-xs">${l.balance} ARM</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function connectTonWallet() {
+            gameState.walletConnected = true;
+            gameState.walletAddress = 'UQ' + Math.random().toString(36).substring(2, 10) + '...ARM';
+            localStorage.setItem('arm_wallet', gameState.walletAddress);
+            updateUI();
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function disconnectTonWallet() {
+            gameState.walletConnected = false;
+            gameState.walletAddress = '';
+            localStorage.removeItem('arm_wallet');
+            updateUI();
+        }
+
+        function claimDailyModal() {
+            const grid = document.getElementById('dailyRewardsGrid');
+            const rewards = [100, 250, 500, 1000, 2500, 5000, 10000];
+            grid.innerHTML = '';
+            rewards.forEach((rew, idx) => {
+                let day = idx + 1;
+                let active = day === gameState.dailyStreak;
+                grid.innerHTML += `
+                    <div class="glass-card p-2 rounded-xl text-center gold-border ${active ? 'bg-gold/20' : ''}">
+                        <span class="text-[10px] text-gray-400 block">Day ${day}</span>
+                        <span class="text-xs font-bold text-gold-bright">+${rew}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('dailyModal').classList.remove('hidden');
+            document.getElementById('dailyModal').classList.add('flex');
+        }
+
+        function claimDailyReward() {
+            const rewards = [100, 250, 500, 1000, 2500, 5000, 10000];
+            let reward = rewards[(gameState.dailyStreak - 1) % 7];
+            gameState.balance += reward;
+            gameState.dailyStreak = (gameState.dailyStreak % 7) + 1;
+            localStorage.setItem('arm_streak', gameState.dailyStreak);
+            updateUI();
+            closeModal('dailyModal');
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        function openClaimModal() {
+            document.getElementById('claimModal').classList.remove('hidden');
+            document.getElementById('claimModal').classList.add('flex');
+        }
+
+        function copyRefLink() {
+            navigator.clipboard.writeText("https://t.me/ARM_Tap_Bot?start=REF_" + Math.floor(Math.random()*90000+10000));
+            alert("Referral link copied!");
+        }
+
+        function shareOnTelegram() {
+            if (tg && tg.openTelegramLink) {
+                tg.openTelegramLink("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot&text=Join%20ARM%20Tap!");
+            } else {
+                window.open("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot", "_blank");
+            }
+        }
+
+        function resetUserData() {
+            if (confirm("Reset game progress?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        // Initialize App & Language
+        setLanguage(currentLang);
+        updateUI();
+    </script>
+</body>
+</html>
