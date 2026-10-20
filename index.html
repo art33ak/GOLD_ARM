@@ -87,28 +87,32 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between pb-24">
 
-    <!-- TOP HEADER / USER INFO -->
-    <header class="w-full px-4 pt-4 pb-2 flex items-center justify-between glass-card border-b border-gold/20 sticky top-0 z-50">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full gold-gradient-bg flex items-center justify-center font-bold text-darkBg text-lg shadow-lg">
+    <!-- TOP HEADER / USER INFO & LANGUAGES -->
+    <header class="w-full px-4 pt-3 pb-2 flex items-center justify-between glass-card border-b border-gold/20 sticky top-0 z-50">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 rounded-full gold-gradient-bg flex items-center justify-center font-bold text-darkBg text-base shadow-lg">
                 <span id="userInitial">A</span>
             </div>
             <div>
-                <h2 id="userName" class="font-bold text-sm text-gold-bright">ARM Player</h2>
-                <div class="flex items-center space-x-1.5 text-xs text-gold/80">
+                <h2 id="userName" class="font-bold text-xs text-gold-bright">ARM Player</h2>
+                <div class="flex items-center space-x-1 text-[10px] text-gold/80">
                     <i class="fa-solid fa-shield-halved"></i>
                     <span id="userLevelName">Level 1 (Novice)</span>
                 </div>
             </div>
         </div>
+
+        <!-- Language Flags & Admin -->
         <div class="flex items-center space-x-2">
-            <button onclick="openModal('adminModal')" class="px-3 py-1.5 rounded-lg bg-darkBg gold-border text-gold text-xs font-bold hover:bg-gold/10 transition">
-                <i class="fa-solid fa-gear"></i> Admin
-            </button>
-            <div class="px-3 py-1.5 rounded-xl glass-card gold-border flex items-center space-x-1.5">
-                <i class="fa-solid fa-coins text-gold"></i>
-                <span id="headerBalance" class="font-extrabold text-gold-bright">0</span>
+            <!-- Language Switcher -->
+            <div class="flex items-center space-x-1 bg-darkBg px-2 py-1 rounded-lg gold-border text-xs">
+                <button onclick="setLanguage('hy')" title="Հայերեն" class="hover:scale-125 transition">🇦🇲</button>
+                <button onclick="setLanguage('ru')" title="Русский" class="hover:scale-125 transition">🇷🇺</button>
+                <button onclick="setLanguage('en')" title="English" class="hover:scale-125 transition">🇺🇸</button>
             </div>
+            <button onclick="openModal('adminModal')" class="w-8 h-8 rounded-lg bg-darkBg gold-border text-gold text-xs font-bold flex items-center justify-center hover:bg-gold/10 transition">
+                <i class="fa-solid fa-gear"></i>
+            </button>
         </div>
     </header>
 
@@ -116,16 +120,16 @@
     <main class="flex-1 max-w-md w-full mx-auto px-4 pt-4 flex flex-col items-center">
 
         <!-- HOME TAB -->
-        <div id="tab-home" class="w-full flex flex-col items-center space-y-5">
+        <div id="tab-home" class="w-full flex flex-col items-center space-y-4">
             <!-- Balance Card -->
-            <div class="w-full glass-card rounded-2xl p-5 text-center gold-border gold-glow">
-                <p class="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-1">Total ARM Balance</p>
+            <div class="w-full glass-card rounded-2xl p-4 text-center gold-border gold-glow">
+                <p id="txtTotalBalance" class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Total ARM Balance</p>
                 <div class="flex items-center justify-center space-x-2">
-                    <span id="mainBalance" class="text-4xl font-extrabold gold-gradient-text">0</span>
-                    <span class="text-lg font-bold text-gold">ARM</span>
+                    <span id="mainBalance" class="text-3xl font-extrabold gold-gradient-text">0</span>
+                    <span class="text-base font-bold text-gold">ARM</span>
                 </div>
-                <div class="mt-3 flex items-center justify-between text-xs text-gray-300 px-2 pt-2 border-t border-gold/10">
-                    <span>Level Progress: <strong id="levelProgressText" class="text-gold-light">0%</strong></span>
+                <div class="mt-2.5 flex items-center justify-between text-xs text-gray-300 px-1 pt-2 border-t border-gold/10">
+                    <span id="txtLevelProg">Progress: <strong id="levelProgressText" class="text-gold-light">0%</strong></span>
                     <span>Next: <strong id="nextLevelTarget" class="text-gold-light">1,000 ARM</strong></span>
                 </div>
                 <!-- Progress Bar -->
@@ -135,41 +139,36 @@
             </div>
 
             <!-- ARM COIN TAP AREA -->
-            <div class="relative flex items-center justify-center my-6">
-                <!-- Outer Glow Ring -->
-                <div class="absolute w-64 h-64 rounded-full bg-gold/10 blur-2xl animate-pulse"></div>
+            <div class="relative flex items-center justify-center my-4">
+                <div class="absolute w-56 h-56 rounded-full bg-gold/10 blur-2xl animate-pulse"></div>
                 
-                <!-- Tappable Coin Button -->
-                <div id="tapCoinBtn" class="relative w-56 h-56 rounded-full gold-gradient-bg p-2 shadow-2xl cursor-pointer coin-pulse active:scale-95 transition-transform duration-100 flex items-center justify-center select-none">
+                <div id="tapCoinBtn" class="relative w-52 h-52 rounded-full gold-gradient-bg p-2 shadow-2xl cursor-pointer coin-pulse active:scale-95 transition-transform duration-100 flex items-center justify-center select-none">
                     <div class="w-full h-full rounded-full bg-darkBg flex flex-col items-center justify-center border-4 border-gold/50 shadow-inner relative overflow-hidden">
-                        <!-- Coin Inner Pattern -->
                         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:12px_12px]"></div>
-                        <i class="fa-solid fa-coins text-5xl text-gold mb-2 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"></i>
-                        <h1 class="text-3xl font-black gold-gradient-text tracking-wider">ARM</h1>
-                        <span class="text-[10px] text-gold/70 font-bold uppercase tracking-widest mt-1">TAP TO EARN</span>
+                        <i class="fa-solid fa-coins text-4xl text-gold mb-2 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]"></i>
+                        <h1 class="text-2xl font-black gold-gradient-text tracking-wider">ARM</h1>
+                        <span id="txtTapToEarn" class="text-[9px] text-gold/70 font-bold uppercase tracking-widest mt-1">TAP TO EARN</span>
                     </div>
                 </div>
-                <!-- Floating Numbers Container -->
                 <div id="floatingNumbersContainer" class="absolute inset-0 pointer-events-none overflow-visible"></div>
             </div>
 
             <!-- Energy & Stats Bar -->
-            <div class="w-full glass-card rounded-2xl p-4 gold-border space-y-3">
-                <div class="flex justify-between items-center text-sm font-bold">
+            <div class="w-full glass-card rounded-2xl p-3.5 gold-border space-y-2.5">
+                <div class="flex justify-between items-center text-xs font-bold">
                     <div class="flex items-center space-x-2 text-gold">
                         <i class="fa-solid fa-bolt"></i>
-                        <span>Energy</span>
+                        <span id="txtEnergy">Energy</span>
                     </div>
                     <div>
                         <span id="currentEnergy" class="text-gold-bright">1000</span> / <span id="maxEnergy" class="text-gray-400">1000</span>
                     </div>
                 </div>
-                <!-- Energy Bar -->
-                <div class="w-full bg-darkBg h-3 rounded-full overflow-hidden gold-border">
+                <div class="w-full bg-darkBg h-2.5 rounded-full overflow-hidden gold-border">
                     <div id="energyBar" class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full w-full transition-all duration-300"></div>
                 </div>
-                <div class="flex justify-between text-xs text-gray-400 pt-1">
-                    <span>Regen: +1 / 5s</span>
+                <div class="flex justify-between text-[11px] text-gray-400">
+                    <span id="txtRegen">Regen: +1 / 5s</span>
                     <span id="tapPowerText" class="text-gold">Tap Power: +1 ARM</span>
                 </div>
             </div>
@@ -177,35 +176,90 @@
             <!-- Quick Action Buttons -->
             <div class="grid grid-cols-2 gap-3 w-full">
                 <button onclick="claimDailyModal()" class="glass-card hover:bg-gold/10 p-3 rounded-xl gold-border flex items-center space-x-3 transition">
-                    <div class="w-10 h-10 rounded-lg gold-gradient-bg flex items-center justify-center text-darkBg font-bold">
-                        <i class="fa-solid fa-gift text-lg"></i>
+                    <div class="w-9 h-9 rounded-lg gold-gradient-bg flex items-center justify-center text-darkBg font-bold">
+                        <i class="fa-solid fa-gift text-base"></i>
                     </div>
                     <div class="text-left">
-                        <h4 class="text-xs font-bold text-gold-bright">Daily Reward</h4>
-                        <p class="text-[10px] text-gray-400">Claim streak</p>
+                        <h4 id="txtDailyBtn" class="text-xs font-bold text-gold-bright">Daily Reward</h4>
+                        <p id="txtClaimStreak" class="text-[10px] text-gray-400">Claim streak</p>
                     </div>
                 </button>
-                <button onclick="switchTab('referral')" class="glass-card hover:bg-gold/10 p-3 rounded-xl gold-border flex items-center space-x-3 transition">
-                    <div class="w-10 h-10 rounded-lg gold-gradient-bg flex items-center justify-center text-darkBg font-bold">
-                        <i class="fa-solid fa-user-plus text-lg"></i>
+                <button onclick="switchTab('boost')" class="glass-card hover:bg-gold/10 p-3 rounded-xl gold-border flex items-center space-x-3 transition">
+                    <div class="w-9 h-9 rounded-lg gold-gradient-bg flex items-center justify-center text-darkBg font-bold animate-bounce">
+                        <i class="fa-solid fa-rocket text-base"></i>
                     </div>
                     <div class="text-left">
-                        <h4 class="text-xs font-bold text-gold-bright">Invite Friends</h4>
-                        <p class="text-[10px] text-gray-400">+1,000 ARM bonus</p>
+                        <h4 id="txtBoostBtn" class="text-xs font-bold text-gold-bright">Daily Combo</h4>
+                        <p id="txtBoostSub" class="text-[10px] text-gold">+25,000 ARM</p>
                     </div>
                 </button>
+            </div>
+        </div>
+
+        <!-- BOOST / COMBO TAB -->
+        <div id="tab-boost" class="w-full hidden space-y-4">
+            <div class="glass-card rounded-2xl p-4 gold-border text-center space-y-2">
+                <div class="w-12 h-12 rounded-full gold-gradient-bg mx-auto flex items-center justify-center text-darkBg text-xl font-bold">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <h3 id="txtComboTitle" class="font-bold text-base text-gold-bright">Daily Combo Cards</h3>
+                <p id="txtComboDesc" class="text-xs text-gray-300">Select the correct 3 cards in the right sequence or upgrade your boosters to claim today's huge reward!</p>
+            </div>
+
+            <!-- Combo Cards Selection Grid -->
+            <div class="grid grid-cols-3 gap-3">
+                <div onclick="selectComboCard(1)" id="comboCard1" class="glass-card p-3 rounded-xl gold-border text-center cursor-pointer hover:bg-gold/10 transition">
+                    <i class="fa-solid fa-microchip text-2xl text-gold mb-1"></i>
+                    <h5 id="txtCard1Name" class="text-[11px] font-bold text-gold-bright">TON Node</h5>
+                    <span class="text-[9px] text-gray-400">Level 5</span>
+                </div>
+                <div onclick="selectComboCard(2)" id="comboCard2" class="glass-card p-3 rounded-xl gold-border text-center cursor-pointer hover:bg-gold/10 transition">
+                    <i class="fa-solid fa-shield-halved text-2xl text-gold mb-1"></i>
+                    <h5 id="txtCard2Name" class="text-[11px] font-bold text-gold-bright">ARM Shield</h5>
+                    <span class="text-[9px] text-gray-400">Level 3</span>
+                </div>
+                <div onclick="selectComboCard(3)" id="comboCard3" class="glass-card p-3 rounded-xl gold-border text-center cursor-pointer hover:bg-gold/10 transition">
+                    <i class="fa-solid fa-bolt text-2xl text-gold mb-1"></i>
+                    <h5 id="txtCard3Name" class="text-[11px] font-bold text-gold-bright">Turbo Tap</h5>
+                    <span class="text-[9px] text-gray-400">Level 8</span>
+                </div>
+            </div>
+
+            <button onclick="claimComboReward()" id="claimComboBtn" class="w-full py-3 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-sm shadow-lg hover:opacity-95 transition">
+                <span id="txtClaimCombo">Claim Combo (+25,000 ARM)</span>
+            </button>
+
+            <!-- Active Boosters Section -->
+            <div class="glass-card rounded-2xl p-4 gold-border space-y-3">
+                <h4 id="txtBoostersHeader" class="font-bold text-xs text-gold-bright uppercase tracking-wider">Active Boosters</h4>
+                <div class="flex items-center justify-between text-xs bg-darkBg p-2.5 rounded-xl gold-border">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-hand-pointer text-gold"></i>
+                        <span id="txtMultiTap">Multitap (+1 / level)</span>
+                    </div>
+                    <button onclick="upgradeBooster('multitap')" id="btnMultiTap" class="gold-gradient-bg text-darkBg font-bold px-3 py-1 rounded-lg text-[11px]">
+                        1,000 ARM
+                    </button>
+                </div>
+                <div class="flex items-center justify-between text-xs bg-darkBg p-2.5 rounded-xl gold-border">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-battery-full text-gold"></i>
+                        <span id="txtEnergyLimit">Energy Limit (+500)</span>
+                    </div>
+                    <button onclick="upgradeBooster('energy')" id="btnEnergyLimit" class="gold-gradient-bg text-darkBg font-bold px-3 py-1 rounded-lg text-[11px]">
+                        2,000 ARM
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- TASKS TAB -->
         <div id="tab-tasks" class="w-full hidden space-y-4">
             <div class="glass-card rounded-2xl p-4 gold-border">
-                <h3 class="font-bold text-base text-gold-bright mb-1"><i class="fa-solid fa-tasks mr-2 text-gold"></i>ARM Ecosystem Tasks</h3>
-                <p class="text-xs text-gray-400">Complete tasks to earn bonus ARM points instantly.</p>
+                <h3 id="txtTasksHeader" class="font-bold text-base text-gold-bright mb-1"><i class="fa-solid fa-tasks mr-2 text-gold"></i>ARM Ecosystem Tasks</h3>
+                <p id="txtTasksDesc" class="text-xs text-gray-400">Complete tasks to earn bonus ARM points instantly.</p>
             </div>
-            <div id="tasksList" class="space-y-3 w-full">
-                <!-- Dynamically populated tasks -->
-            </div>
+            <div id="tasksList" class="space-y-3 w-full"></div>
         </div>
 
         <!-- REFERRAL TAB -->
@@ -214,25 +268,25 @@
                 <div class="w-14 h-14 rounded-full gold-gradient-bg mx-auto flex items-center justify-center text-darkBg text-2xl font-bold shadow-lg">
                     <i class="fa-solid fa-users"></i>
                 </div>
-                <h3 class="font-bold text-lg text-gold-bright">Referral Program</h3>
-                <p class="text-xs text-gray-300">Invite your friends to ARM Tap. Both you and your friend will receive bonus ARM points!</p>
+                <h3 id="txtRefTitle" class="font-bold text-lg text-gold-bright">Referral Program</h3>
+                <p id="txtRefDesc" class="text-xs text-gray-300">Invite your friends to ARM Tap. Both you and your friend will receive bonus ARM points!</p>
                 <div class="bg-darkBg p-3 rounded-xl gold-border flex items-center justify-between text-xs">
                     <span id="refLinkText" class="text-gold-light truncate mr-2">https://t.me/ARM_Tap_Bot?start=REF_12345</span>
-                    <button onclick="copyRefLink()" class="gold-gradient-bg text-darkBg font-bold px-3 py-1.5 rounded-lg text-xs whitespace-nowrap">
-                        <i class="fa-solid fa-copy"></i> Copy
+                    <button onclick="copyRefLink()" id="txtCopyBtn" class="gold-gradient-bg text-darkBg font-bold px-3 py-1.5 rounded-lg text-xs whitespace-nowrap">
+                        Copy
                     </button>
                 </div>
-                <button onclick="shareOnTelegram()" class="w-full py-3 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-sm shadow-lg hover:opacity-95 transition">
+                <button onclick="shareOnTelegram()" id="txtShareBtn" class="w-full py-3 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-sm shadow-lg hover:opacity-95 transition">
                     <i class="fa-brands fa-telegram mr-2"></i> Share on Telegram
                 </button>
             </div>
             <div class="glass-card rounded-2xl p-4 gold-border flex justify-between items-center">
                 <div>
-                    <p class="text-xs text-gray-400">Invited Friends</p>
+                    <p id="txtInvitedFriends" class="text-xs text-gray-400">Invited Friends</p>
                     <h4 id="refCount" class="text-xl font-extrabold text-gold-bright">0</h4>
                 </div>
                 <div class="text-right">
-                    <p class="text-xs text-gray-400">Total Referral Earnings</p>
+                    <p id="txtRefEarnings" class="text-xs text-gray-400">Total Referral Earnings</p>
                     <h4 id="refEarnings" class="text-xl font-extrabold text-gold">0 ARM</h4>
                 </div>
             </div>
@@ -242,17 +296,15 @@
         <div id="tab-leaderboard" class="w-full hidden space-y-4">
             <div class="glass-card rounded-2xl p-4 gold-border flex items-center justify-between">
                 <div>
-                    <h3 class="font-bold text-base text-gold-bright"><i class="fa-solid fa-trophy mr-2 text-gold"></i>Global Leaderboard</h3>
-                    <p class="text-xs text-gray-400">Top ARM tap champions worldwide</p>
+                    <h3 id="txtLbHeader" class="font-bold text-base text-gold-bright"><i class="fa-solid fa-trophy mr-2 text-gold"></i>Global Leaderboard</h3>
+                    <p id="txtLbSub" class="text-xs text-gray-400">Top ARM tap champions worldwide</p>
                 </div>
                 <div class="text-right">
-                    <span class="text-[10px] text-gray-400 block">Your Rank</span>
-                    <span id="userRank" class="font-extrabold text-gold-bright text-lg">#--</span>
+                    <span id="txtYourRank" class="text-[10px] text-gray-400 block">Your Rank</span>
+                    <span id="userRank" class="font-extrabold text-gold-bright text-lg">#142</span>
                 </div>
             </div>
-            <div id="leaderboardList" class="space-y-2 w-full pb-6">
-                <!-- Dynamically populated leaderboard -->
-            </div>
+            <div id="leaderboardList" class="space-y-2 w-full pb-6"></div>
         </div>
 
         <!-- WALLET TAB -->
@@ -262,12 +314,12 @@
                     <i class="fa-solid fa-wallet"></i>
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg text-gold-bright">TON Wallet Connection</h3>
-                    <p class="text-xs text-gray-300 mt-1">Connect your TON wallet (Tonkeeper, MyTonWallet, Telegram Wallet) to prepare for future ARM token claims.</p>
+                    <h3 id="txtWalletTitle" class="font-bold text-lg text-gold-bright">TON Wallet Connection</h3>
+                    <p id="txtWalletDesc" class="text-xs text-gray-300 mt-1">Connect your TON wallet to prepare for future ARM token claims.</p>
                 </div>
                 
                 <div id="walletDisconnectedView">
-                    <button onclick="connectTonWallet()" class="w-full py-3.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-sm shadow-lg hover:opacity-95 transition">
+                    <button onclick="connectTonWallet()" id="txtConnectBtn" class="w-full py-3.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-sm shadow-lg hover:opacity-95 transition">
                         <i class="fa-solid fa-link mr-2"></i> Connect TON Wallet
                     </button>
                 </div>
@@ -275,41 +327,31 @@
                 <div id="walletConnectedView" class="hidden space-y-3">
                     <div class="bg-darkBg p-3 rounded-xl gold-border text-left space-y-1">
                         <div class="flex justify-between text-xs text-gray-400">
-                            <span>Status</span>
+                            <span id="txtWalletStatus">Status</span>
                             <span class="text-green-400 font-bold"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Connected</span>
                         </div>
                         <div class="flex justify-between text-xs text-gray-300">
-                            <span>Address</span>
+                            <span id="txtWalletAddr">Address</span>
                             <span id="walletAddressDisplay" class="font-mono text-gold-light">UQD...xyz</span>
                         </div>
                     </div>
-                    <button onclick="disconnectTonWallet()" class="w-full py-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold text-xs hover:bg-red-500/30 transition">
+                    <button onclick="disconnectTonWallet()" id="txtDisconnectBtn" class="w-full py-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold text-xs hover:bg-red-500/30 transition">
                         Disconnect Wallet
                     </button>
                 </div>
             </div>
 
-            <!-- ARM Token & Claim Section -->
             <div class="glass-card rounded-2xl p-4 gold-border space-y-3">
                 <h4 class="font-bold text-sm text-gold-bright flex items-center">
                     <i class="fa-solid fa-coins mr-2 text-gold"></i> ARM Jetton on TON
                 </h4>
                 <div class="text-xs space-y-1.5 text-gray-300">
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Network:</span>
-                        <span class="font-bold text-gold">TON Mainnet</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">Contract:</span>
-                        <span class="font-mono text-gold-light">EQD...ARM_TOKEN</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-400">On-Chain Balance:</span>
-                        <span id="onchainBalance" class="font-bold text-gold-bright">0 ARM</span>
-                    </div>
+                    <div class="flex justify-between"><span class="text-gray-400">Network:</span><span class="font-bold text-gold">TON Mainnet</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Contract:</span><span class="font-mono text-gold-light">EQD...ARM_TOKEN</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">On-Chain Balance:</span><span id="onchainBalance" class="font-bold text-gold-bright">0 ARM</span></div>
                 </div>
                 <div class="pt-2 border-t border-gold/10">
-                    <button onclick="openClaimModal()" class="w-full py-2.5 rounded-xl gold-border bg-gold/10 text-gold font-bold text-xs hover:bg-gold/20 transition">
+                    <button onclick="openClaimModal()" id="txtClaimSoonBtn" class="w-full py-2.5 rounded-xl gold-border bg-gold/10 text-gold font-bold text-xs hover:bg-gold/20 transition">
                         Claim ARM to Wallet (Coming Soon)
                     </button>
                 </div>
@@ -322,23 +364,23 @@
     <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto glass-card border-t border-gold/20 px-2 py-2 flex justify-around items-center z-50">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center space-y-1 text-gold transition">
             <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-bold">Home</span>
+            <span id="navHomeText" class="text-[10px] font-bold">Home</span>
+        </button>
+        <button onclick="switchTab('boost')" id="nav-boost" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-gold transition">
+            <i class="fa-solid fa-rocket text-lg"></i>
+            <span id="navBoostText" class="text-[10px] font-bold">Boost</span>
         </button>
         <button onclick="switchTab('tasks')" id="nav-tasks" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-gold transition">
-            <i class="fa-solid fa-list-check text-lg"></i>
-            <span class="text-[10px] font-bold">Tasks</span>
+            <span id="navTasksText" class="text-[10px] font-bold">Tasks</span>
         </button>
         <button onclick="switchTab('referral')" id="nav-referral" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-gold transition">
-            <i class="fa-solid fa-user-group text-lg"></i>
-            <span class="text-[10px] font-bold">Referral</span>
+            <span id="navRefText" class="text-[10px] font-bold">Referral</span>
         </button>
         <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-gold transition">
-            <i class="fa-solid fa-trophy text-lg"></i>
-            <span class="text-[10px] font-bold">Leaderboard</span>
+            <span id="navLbText" class="text-[10px] font-bold">Leaderboard</span>
         </button>
         <button onclick="switchTab('wallet')" id="nav-wallet" class="flex flex-col items-center space-y-1 text-gray-400 hover:text-gold transition">
-            <i class="fa-solid fa-wallet text-lg"></i>
-            <span class="text-[10px] font-bold">Wallet</span>
+            <span id="navWalletText" class="text-[10px] font-bold">Wallet</span>
         </button>
     </nav>
 
@@ -350,9 +392,7 @@
                 <button onclick="closeModal('dailyModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <p class="text-xs text-gray-300">Log in every 24 hours to claim your streak rewards and boost your ARM balance!</p>
-            <div id="dailyRewardsGrid" class="grid grid-cols-4 gap-2 py-2">
-                <!-- Dynamically generated days -->
-            </div>
+            <div id="dailyRewardsGrid" class="grid grid-cols-4 gap-2 py-2"></div>
             <button onclick="claimDailyReward()" id="claimDailyBtn" class="w-full py-3 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-sm shadow-lg hover:opacity-95 transition">
                 Claim Today's Reward
             </button>
@@ -370,27 +410,18 @@
                 <div class="bg-darkBg p-3 rounded-xl gold-border space-y-1">
                     <p class="text-gray-400">Total System Users: <strong class="text-gold-bright">12,450</strong></p>
                     <p class="text-gray-400">Total Taps Recorded: <strong class="text-gold-bright">1,849,200</strong></p>
-                    <p class="text-gray-400">Connected Wallets: <strong class="text-gold-bright">4,120</strong></p>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-gray-300 font-semibold">Tap Reward Multiplier</label>
+                    <label class="text-gray-300 font-semibold">Tap Power Multiplier</label>
                     <input type="number" id="adminTapReward" value="1" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
                 </div>
-                <div class="space-y-1">
-                    <label class="text-gray-300 font-semibold">Max Energy Limit</label>
-                    <input type="number" id="adminMaxEnergy" value="1000" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
-                </div>
-                <button onclick="saveAdminSettings()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
-                    Save Configurations
-                </button>
-                <button onclick="resetUserData()" class="w-full py-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold">
-                    Reset Game Data
-                </button>
+                <button onclick="saveAdminSettings()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">Save Configurations</button>
+                <button onclick="resetUserData()" class="w-full py-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold">Reset Game Data</button>
             </div>
         </div>
     </div>
 
-    <!-- CLAIM MODAL (COMING SOON) -->
+    <!-- CLAIM MODAL -->
     <div id="claimModal" class="fixed inset-0 bg-darkBg/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
         <div class="glass-card rounded-2xl p-5 max-w-sm w-full gold-border text-center space-y-4">
             <div class="w-12 h-12 rounded-full gold-gradient-bg mx-auto flex items-center justify-center text-darkBg text-xl font-bold">
@@ -398,15 +429,12 @@
             </div>
             <h3 class="font-bold text-base text-gold-bright">ARM Token Claiming</h3>
             <p class="text-xs text-gray-300">ARM token claiming will be available soon once official liquidity pools on STON.fi and DEX listings are live.</p>
-            <button onclick="closeModal('claimModal')" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
-                Got it
-            </button>
+            <button onclick="closeModal('claimModal')" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">Got it</button>
         </div>
     </div>
 
-    <!-- JAVASCRIPT GAME LOGIC -->
+    <!-- JAVASCRIPT GAME LOGIC & TRANSLATIONS -->
     <script>
-        // Telegram WebApp Integration
         let tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
@@ -419,16 +447,194 @@
             } catch(e) {}
         }
 
+        // Translations Dictionary
+        const translations = {
+            hy: {
+                totalBal: "ԸՆԴՀԱՆՈՒՐ ՀԱՇՎԵԿՇԻՌ",
+                prog: "Առקדիմություն:",
+                tapEarn: "ՍԵՂՄԵՔ ԵՒ ՎԱՍՏԱԿԵՔ",
+                energy: "Էներգիա",
+                regen: "Վերականգնում: +1 / 5վ",
+                dailyBtn: "Ամենօրյա",
+                streak: "Ստացեք բոնուս",
+                boostBtn: "Օրվա Բուստ",
+                boostSub: "+25,000 ARM",
+                comboTitle: "Օրվա Կոմբո Քարտեր",
+                comboDesc: "Ընտրեք ճիշտ քարտերը կամ բարելավեք ձեր բուստերները մեծ պարգևներ ստանալու համար:",
+                claimCombo: "Ստանալ Կոմբո (+25,000 ARM)",
+                boostersHead: "Ակտիվ Բուստերներ",
+                multitap: "Բազմակի տապ (+1 / մակարդակ)",
+                energyLimit: "Էներգիայի սահմանափակում (+500)",
+                tasksHead: "ARM Համակարգի Առաջադրանքներ",
+                tasksDesc: "Կատարեք առաջադրանքները և ստացեք լրացուցիչ ARM միավորներ:",
+                refTitle: "Ռեֆերալային Համակարգ",
+                refDesc: "Հրավիրեք ձեր ընկերներին և ստացեք բոնուսային միավորներ երկուսդ էլ:",
+                copyBtn: "Պատճենել",
+                shareBtn: "Կիսվել Telegram-ում",
+                invited: "Հրավիրված ընկերներ",
+                refEarn: "Ընդհանուր եկամուտ",
+                lbHead: "Գլոբալ Աղյուսակ",
+                lbSub: "Աշխարհի լավագույն տապերները",
+                yourRank: "Ձեր տեղը",
+                walletTitle: "TON Դրամապանակի Միացում",
+                walletDesc: "Միացրեք ձեր TON դրամապանակը ապագայում ARM տոկեններ ստանալու համար:",
+                connectBtn: "Միացնել TON Դրամապանակը",
+                status: "Կարգավիճակ",
+                addr: "Հասցե",
+                disconnectBtn: "Անջատել Դրամապանակը",
+                claimSoon: "Ստանալ ARM (Շուտով)",
+                home: "Գլխավոր",
+                boost: "Բուստ",
+                tasks: "Առաջադրանք",
+                referral: "Ընկերներ",
+                lb: "Աղյուսակ",
+                wallet: "Դրամապանակ"
+            },
+            ru: {
+                totalBal: "ОБЩИЙ БАЛАНС ARM",
+                prog: "Прогресс:",
+                tapEarn: "НАЖИМАЙТЕ И ЗАРАБАТЫВАЙТЕ",
+                energy: "Энергия",
+                regen: "Восстановление: +1 / 5с",
+                dailyBtn: "Ежедневно",
+                streak: "Бонус стрика",
+                boostBtn: "Буст дня",
+                boostSub: "+25,000 ARM",
+                comboTitle: "Комбо Карты Дня",
+                comboDesc: "Выберите правильные карты или прокачайте бустеры для получения огромной награды!",
+                claimCombo: "Забрать комбо (+25,000 ARM)",
+                boostersHead: "Активные Бустеры",
+                multitap: "Мультитап (+1 / уровень)",
+                energyLimit: "Лимит энергии (+500)",
+                tasksHead: "Задания экосистемы ARM",
+                tasksDesc: "Выполняйте задания и получайте бонусные ARM мгновенно.",
+                refTitle: "Реферальная Программа",
+                refDesc: "Приглашайте друзей и получайте бонусные ARM оба!",
+                copyBtn: "Копировать",
+                shareBtn: "Поделиться в Telegram",
+                invited: "Приглашенные друзья",
+                refEarn: "Доход с рефералов",
+                lbHeader: "Глобальная Таблица",
+                lbSub: "Лучшие игроки мира",
+                yourRank: "Ваш ранг",
+                walletTitle: "Подключение TON Кошелька",
+                walletDesc: "Подключите кошелек TON для будущих клеймов токенов ARM.",
+                connectBtn: "Подключить TON Кошелек",
+                status: "Статус",
+                addr: "Адрес",
+                disconnectBtn: "Отключить Кошелек",
+                claimSoon: "Клейм ARM (Скоро)",
+                home: "Главная",
+                boost: "Буст",
+                tasks: "Задания",
+                referral: "Рефералы",
+                lb: "Лидеры",
+                wallet: "Кошелек"
+            },
+            en: {
+                totalBal: "TOTAL ARM BALANCE",
+                prog: "Progress:",
+                tapEarn: "TAP TO EARN",
+                energy: "Energy",
+                regen: "Regen: +1 / 5s",
+                dailyBtn: "Daily Reward",
+                streak: "Claim streak",
+                boostBtn: "Daily Combo",
+                boostSub: "+25,000 ARM",
+                comboTitle: "Daily Combo Cards",
+                comboDesc: "Select the correct cards or upgrade your boosters to claim today's huge reward!",
+                claimCombo: "Claim Combo (+25,000 ARM)",
+                boostersHead: "Active Boosters",
+                multitap: "Multitap (+1 / level)",
+                energyLimit: "Energy Limit (+500)",
+                tasksHead: "ARM Ecosystem Tasks",
+                tasksDesc: "Complete tasks to earn bonus ARM points instantly.",
+                refTitle: "Referral Program",
+                refDesc: "Invite your friends to ARM Tap. Both receive bonus ARM points!",
+                copyBtn: "Copy",
+                shareBtn: "Share on Telegram",
+                invited: "Invited Friends",
+                refEarn: "Total Referral Earnings",
+                lbHeader: "Global Leaderboard",
+                lbSub: "Top ARM tap champions worldwide",
+                yourRank: "Your Rank",
+                walletTitle: "TON Wallet Connection",
+                walletDesc: "Connect your TON wallet to prepare for future ARM token claims.",
+                connectBtn: "Connect TON Wallet",
+                status: "Status",
+                addr: "Address",
+                disconnectBtn: "Disconnect Wallet",
+                claimSoon: "Claim ARM to Wallet (Coming Soon)",
+                home: "Home",
+                boost: "Boost",
+                tasks: "Tasks",
+                referral: "Referral",
+                lb: "Leaderboard",
+                wallet: "Wallet"
+            }
+        };
+
+        let currentLang = localStorage.getItem('arm_lang') || 'hy';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('arm_lang', lang);
+            applyTranslations();
+        }
+
+        function applyTranslations() {
+            let t = translations[currentLang] || translations['hy'];
+            document.getElementById('txtTotalBalance').innerText = t.totalBal;
+            document.getElementById('txtTapToEarn').innerText = t.tapEarn;
+            document.getElementById('txtEnergy').innerText = t.energy;
+            document.getElementById('txtRegen').innerText = t.regen;
+            document.getElementById('txtDailyBtn').innerText = t.dailyBtn;
+            document.getElementById('txtClaimStreak').innerText = t.streak;
+            document.getElementById('txtBoostBtn').innerText = t.boostBtn;
+            document.getElementById('txtBoostSub').innerText = t.boostSub;
+            document.getElementById('txtComboTitle').innerText = t.comboTitle;
+            document.getElementById('txtComboDesc').innerText = t.comboDesc;
+            document.getElementById('txtClaimCombo').innerText = t.claimCombo;
+            document.getElementById('txtBoostersHeader').innerText = t.boostersHead;
+            document.getElementById('txtMultiTap').innerText = t.multitap;
+            document.getElementById('txtEnergyLimit').innerText = t.energyLimit;
+            document.getElementById('txtTasksHeader').innerText = t.tasksHead;
+            document.getElementById('txtTasksDesc').innerText = t.tasksDesc;
+            document.getElementById('txtRefTitle').innerText = t.refTitle;
+            document.getElementById('txtRefDesc').innerText = t.refDesc;
+            document.getElementById('txtCopyBtn').innerText = t.copyBtn;
+            document.getElementById('txtShareBtn').innerHTML = `<i class="fa-brands fa-telegram mr-2"></i> ${t.shareBtn}`;
+            document.getElementById('txtInvitedFriends').innerText = t.invited;
+            document.getElementById('txtRefEarnings').innerText = t.refEarn;
+            document.getElementById('txtLbHeader').innerHTML = `<i class="fa-solid fa-trophy mr-2 text-gold"></i>${t.lbHeader}`;
+            document.getElementById('txtLbSub').innerText = t.lbSub;
+            document.getElementById('txtYourRank').innerText = t.yourRank;
+            document.getElementById('txtWalletTitle').innerText = t.walletTitle;
+            document.getElementById('txtWalletDesc').innerText = t.walletDesc;
+            document.getElementById('txtConnectBtn').innerHTML = `<i class="fa-solid fa-link mr-2"></i> ${t.connectBtn}`;
+            document.getElementById('txtWalletStatus').innerText = t.status;
+            document.getElementById('txtWalletAddr').innerText = t.addr;
+            document.getElementById('txtDisconnectBtn').innerText = t.disconnectBtn;
+            document.getElementById('txtClaimSoonBtn').innerText = t.claimSoon;
+            document.getElementById('navHomeText').innerText = t.home;
+            document.getElementById('navBoostText').innerText = t.boost;
+            document.getElementById('navTasksText').innerText = t.tasks;
+            document.getElementById('navRefText').innerText = t.referral;
+            document.getElementById('navLbText').innerText = t.lb;
+            document.getElementById('navWalletText').innerText = t.wallet;
+        }
+
         // Game State
         let gameState = {
             balance: parseInt(localStorage.getItem('arm_balance')) || 0,
             energy: parseInt(localStorage.getItem('arm_energy')) || 1000,
-            maxEnergy: 1000,
-            tapPower: 1,
+            maxEnergy: parseInt(localStorage.getItem('arm_max_energy')) || 1000,
+            tapPower: parseInt(localStorage.getItem('arm_tap_power')) || 1,
             walletConnected: localStorage.getItem('arm_wallet') ? true : false,
             walletAddress: localStorage.getItem('arm_wallet') || '',
             dailyStreak: parseInt(localStorage.getItem('arm_streak')) || 1,
-            lastClaimDate: localStorage.getItem('arm_last_claim') || '',
+            comboClaimed: localStorage.getItem('arm_combo_claimed') === 'true',
+            selectedCards: [],
             tasks: [
                 { id: 1, title: 'Join ARM Telegram Channel', reward: 2000, completed: localStorage.getItem('task_1') === 'true' },
                 { id: 2, title: 'Join ARM Community Chat', reward: 2000, completed: localStorage.getItem('task_2') === 'true' },
@@ -447,17 +653,15 @@
             { level: 7, name: 'ARM Master', min: 100000000 },
         ];
 
-        // UI Update Loop
         function updateUI() {
             document.getElementById('mainBalance').innerText = gameState.balance.toLocaleString();
-            document.getElementById('headerBalance').innerText = gameState.balance.toLocaleString();
             document.getElementById('currentEnergy').innerText = gameState.energy;
             document.getElementById('maxEnergy').innerText = gameState.maxEnergy;
+            document.getElementById('tapPowerText').innerText = `Tap Power: +${gameState.tapPower} ARM`;
             
             let energyPercent = (gameState.energy / gameState.maxEnergy) * 100;
             document.getElementById('energyBar').style.width = energyPercent + '%';
 
-            // Level Calculation
             let currentLevelObj = levels[0];
             let nextLevelObj = levels[1];
             for (let i = 0; i < levels.length; i++) {
@@ -479,7 +683,6 @@
             document.getElementById('levelProgressText').innerText = Math.floor(progress) + '%';
             document.getElementById('nextLevelTarget').innerText = nextLevelObj.min > currentLevelObj.min ? nextLevelObj.min.toLocaleString() + ' ARM' : 'MAX';
 
-            // Wallet View
             if (gameState.walletConnected) {
                 document.getElementById('walletDisconnectedView').classList.add('hidden');
                 document.getElementById('walletConnectedView').classList.remove('hidden');
@@ -492,6 +695,8 @@
 
             localStorage.setItem('arm_balance', gameState.balance);
             localStorage.setItem('arm_energy', gameState.energy);
+            localStorage.setItem('arm_max_energy', gameState.maxEnergy);
+            localStorage.setItem('arm_tap_power', gameState.tapPower);
         }
 
         // Tap Mechanic
@@ -505,11 +710,8 @@
             gameState.energy -= gameState.tapPower;
             gameState.balance += gameState.tapPower;
 
-            if (tg?.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
-            }
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
 
-            // Floating +1 Animation
             const rect = tapCoinBtn.getBoundingClientRect();
             const x = e.clientX ? e.clientX - rect.left : rect.width / 2;
             const y = e.clientY ? e.clientY - rect.top : rect.height / 2;
@@ -525,7 +727,7 @@
             updateUI();
         });
 
-        // Energy Regeneration (every 5s)
+        // Energy Regen
         setInterval(() => {
             if (gameState.energy < gameState.maxEnergy) {
                 gameState.energy = Math.min(gameState.maxEnergy, gameState.energy + 1);
@@ -535,7 +737,7 @@
 
         // Navigation Tabs
         function switchTab(tabName) {
-            ['home', 'tasks', 'referral', 'leaderboard', 'wallet'].forEach(t => {
+            ['home', 'boost', 'tasks', 'referral', 'leaderboard', 'wallet'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 document.getElementById(`nav-${t}`).classList.remove('text-gold');
                 document.getElementById(`nav-${t}`).classList.add('text-gray-400');
@@ -546,6 +748,63 @@
 
             if (tabName === 'tasks') renderTasks();
             if (tabName === 'leaderboard') renderLeaderboard();
+        }
+
+        // Combo Cards Logic
+        function selectComboCard(id) {
+            let el = document.getElementById(`comboCard${id}`);
+            if (gameState.selectedCards.includes(id)) {
+                gameState.selectedCards = gameState.selectedCards.filter(c => c !== id);
+                el.classList.remove('bg-gold/30', 'gold-border');
+            } else {
+                if (gameState.selectedCards.length < 3) {
+                    gameState.selectedCards.push(id);
+                    el.classList.add('bg-gold/30', 'gold-border');
+                }
+            }
+        }
+
+        function claimComboReward() {
+            if (gameState.comboClaimed) {
+                alert("Daily combo already claimed today!");
+                return;
+            }
+            if (gameState.selectedCards.length < 3) {
+                alert("Please select all 3 combo cards correctly!");
+                return;
+            }
+            gameState.balance += 25000;
+            gameState.comboClaimed = true;
+            localStorage.setItem('arm_combo_claimed', 'true');
+            updateUI();
+            alert("Congratulations! +25,000 ARM combo reward added!");
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        }
+
+        // Upgrades
+        function upgradeBooster(type) {
+            if (type === 'multitap') {
+                let cost = 1000 * gameState.tapPower;
+                if (gameState.balance >= cost) {
+                    gameState.balance -= cost;
+                    gameState.tapPower += 1;
+                    updateUI();
+                    alert("Multitap upgraded successfully!");
+                } else {
+                    alert("Not enough ARM balance!");
+                }
+            } else if (type === 'energy') {
+                let cost = 2000;
+                if (gameState.balance >= cost) {
+                    gameState.balance -= cost;
+                    gameState.maxEnergy += 500;
+                    gameState.energy = gameState.maxEnergy;
+                    updateUI();
+                    alert("Energy limit increased!");
+                } else {
+                    alert("Not enough ARM balance!");
+                }
+            }
         }
 
         // Render Tasks
@@ -579,7 +838,7 @@
             }
         }
 
-        // Leaderboard Mock Data
+        // Leaderboard
         function renderLeaderboard() {
             const list = document.getElementById('leaderboardList');
             const leaders = [
@@ -588,8 +847,6 @@
                 { rank: 3, name: 'VardanTaps', balance: '29,400,000', level: 'Level 5' },
                 { rank: 4, name: 'AramMaster', balance: '18,100,000', level: 'Level 5' },
                 { rank: 5, name: 'Ani_Gold', balance: '12,500,000', level: 'Level 5' },
-                { rank: 6, name: 'Tigran_TON', balance: '9,800,000', level: 'Level 4' },
-                { rank: 7, name: 'NarekTap', balance: '7,300,000', level: 'Level 4' },
             ];
             list.innerHTML = '';
             leaders.forEach(l => {
@@ -608,10 +865,8 @@
                     </div>
                 `;
             });
-            document.getElementById('userRank50').innerText = '#142';
         }
 
-        // Wallet Connection
         function connectTonWallet() {
             gameState.walletConnected = true;
             gameState.walletAddress = 'UQ' + Math.random().toString(36).substring(2, 10) + '...ARM';
@@ -627,7 +882,6 @@
             updateUI();
         }
 
-        // Modals
         function claimDailyModal() {
             const grid = document.getElementById('dailyRewardsGrid');
             const rewards = [100, 250, 500, 1000, 2500, 5000, 10000];
@@ -669,12 +923,12 @@
 
         function copyRefLink() {
             navigator.clipboard.writeText("https://t.me/ARM_Tap_Bot?start=REF_" + Math.floor(Math.random()*90000+10000));
-            alert("Referral link copied to clipboard!");
+            alert("Referral link copied!");
         }
 
         function shareOnTelegram() {
             if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot&text=Join%20ARM%20Tap%20and%20earn%20ARM%20tokens%20on%20TON!");
+                tg.openTelegramLink("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot&text=Join%20ARM%20Tap!");
             } else {
                 window.open("https://t.me/share/url?url=https://t.me/ARM_Tap_Bot", "_blank");
             }
@@ -682,21 +936,20 @@
 
         function saveAdminSettings() {
             let mult = parseInt(document.getElementById('adminTapReward').value) || 1;
-            let maxE = parseInt(document.getElementById('adminMaxEnergy').value) || 1000;
             gameState.tapPower = mult;
-            gameState.maxEnergy = maxE;
             closeModal('adminModal');
             updateUI();
         }
 
         function resetUserData() {
-            if (confirm("Are you sure you want to reset all game progress?")) {
+            if (confirm("Reset game progress?")) {
                 localStorage.clear();
                 location.reload();
             }
         }
 
-        // Initialize App
+        // Initialize App & Language
+        setLanguage(currentLang);
         updateUI();
     </script>
 </body>
