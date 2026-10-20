@@ -110,7 +110,50 @@
                 <button onclick="setLanguage('ru')" title="Русский" class="hover:scale-125 transition">🇷🇺</button>
                 <button onclick="setLanguage('en')" title="English" class="hover:scale-125 transition">🇺🇸</button>
             </div>
-            <button onclick="openModal('adminModal')" class="w-8 h-8 rounded-lg bg-darkBg gold-border text-gold text-xs font-bold flex items-center justify-center hover:bg-gold/10 transition">
+            <!-- ADMIN MODAL (Ուղղված) -->
+<div id="adminModal" class="fixed inset-0 bg-darkBg/90 backdrop-blur-md hidden items-center justify-center p-4 z-[9999]">
+    <div class="glass-card rounded-2xl p-5 max-w-sm w-full gold-border space-y-4 max-h-[85vh] overflow-y-auto relative">
+        <div class="flex justify-between items-center border-b border-gold/20 pb-2">
+            <h3 class="font-bold text-base text-gold-bright flex items-center">
+                <i class="fa-solid fa-shield-cat mr-2 text-gold"></i>Admin Panel
+            </h3>
+            <button onclick="closeModal('adminModal')" class="text-gray-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Գաղտնաբառի ստուգման բաժին -->
+        <div id="adminAuthSection" class="space-y-3">
+            <p class="text-xs text-gray-300">Մուտքագրեք ադմին գաղտնաբառը (Լռելյայն: <strong>1234</strong>)</p>
+            <input type="password" id="adminPassInput" placeholder="PIN Կոդ" class="w-full bg-darkBg gold-border rounded-lg p-2 text-center text-gold font-bold text-lg tracking-widest focus:outline-none">
+            <button onclick="checkAdminPassword()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
+                Մուտք Ադմին Պանել
+            </button>
+        </div>
+
+        <!-- Ադմին գործիքների բաժին (Լռելյայն փակ է) -->
+        <div id="adminControlsSection" class="hidden space-y-3 text-xs">
+            <div class="bg-darkBg p-3 rounded-xl gold-border space-y-1">
+                <p class="text-gray-400">Ընդհանուր օգտատերեր: <strong class="text-gold-bright">12,450</strong></p>
+                <p class="text-gray-400">Ընդհանուր Tap-եր: <strong class="text-gold-bright">1,849,200</strong></p>
+            </div>
+            <div class="space-y-1 text-left">
+                <label class="text-gray-300 font-semibold">Tap Power Multiplier</label>
+                <input type="number" id="adminTapReward" value="1" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
+            </div>
+            <div class="space-y-1 text-left">
+                <label class="text-gray-300 font-semibold">Max Energy Limit</label>
+                <input type="number" id="adminMaxEnergy" value="1000" class="w-full bg-darkBg gold-border rounded-lg p-2 text-gold font-bold">
+            </div>
+            <button onclick="saveAdminSettings()" class="w-full py-2.5 rounded-xl gold-gradient-bg text-darkBg font-extrabold text-xs">
+                Պահպանել Կարգավորումները
+            </button>
+            <button onclick="resetUserData()" class="w-full py-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-bold">
+                Ջնջել Իմ Տվյալները (Reset)
+            </button>
+        </div>
+    </div>
+</div>
                 <i class="fa-solid fa-gear"></i>
             </button>
         </div>
